@@ -1,7 +1,7 @@
 # python 学习 #
-to be a pythoner!Don't give up.
+to be a pythoner! Don't give up!
 
-## 爬取历年排列三的中奖号码##
+## [爬取历年排列三的中奖号码](https://github.com/LooEv/learning-python/tree/master/winning_numbers_of_pailiesan) ##
 爬取中国体育彩票的排列三所有期数的中奖号码，并使用pandas和matplotlib对中奖号码进行粗略分析
 
 
