@@ -1,7 +1,7 @@
 #!/usr/bin/env python
+# encoding: utf-8
 # Email: exyloolq@gmail.com
 # Author: LooEv
-# encoding: utf-8
 
 """
     It's used to get the winning lottery numbers from the "http://baidu.lecai.com/lottery/draw/list/3".
