@@ -8,7 +8,7 @@
 
 ## 介绍 ##
 * 第一次运行程序，会爬取所有期数的中奖号码，存入数据库。以后再次运行程序，程序首先判断是否存在数据库文件，如果存在，则找出上一次插入的最大期数，然后补插后面新出的中奖号码
-```
+```python
 try:
     self.cursor.execute('SELECT max(id) FROM lottery')
     self.max_id_inserted = self.cursor.fetchall()[0][0]
