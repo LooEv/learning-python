@@ -28,7 +28,10 @@ def system_detect():
     system = platform.system()
     # 此处只考虑这几种常见的情况
     systems = {'Windows': ('gbk', True), 'Linux': ('utf-8', False), 'Darwin': ('utf-8', True)}
-    return systems[system]
+    if systems.get(system, None):
+        return systems[system]
+    else:
+        raise Exception("your system is out of my consideration,sorry.The Chinese maybe display abnormally!")
 
 
 def fuzzy_finder(keyword, collections):
