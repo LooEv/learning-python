@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Email: exyloolq@gmail.com
 # Author: LooEv
 
 """
