@@ -10,7 +10,7 @@
 ```python
 def system_detect():
     system = platform.system()
-    # 此处只考虑这几种常见的情况
+    # 此处只考虑这几种常见的情况，Windows环境下请使用cmd运行此脚本
     systems = {'Windows': ('gbk', True), 'Linux': ('utf-8', False), 'Darwin': ('utf-8', True)}
     if systems.get(system, None):
         return systems[system]
