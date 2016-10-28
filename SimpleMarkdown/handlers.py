@@ -28,6 +28,7 @@ class Handler(object):
 
 
 class HTMLRenderer(Handler):
+    # 此处加上一些html元素的style是为了让解析出来的结果好看一些
     document = """<!DOCTYPE html>
                     <html>
                     <head>

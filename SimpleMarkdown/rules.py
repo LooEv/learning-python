@@ -6,17 +6,7 @@ __author__ = 'Loo'
 import re
 
 
-class Rule(object):
-    strip = None
-
-    def action(self, element, handler, *args):
-        handler.start(self.type, *args)
-        handler.feed(element.strip(self.strip))
-        handler.end(self.type, *args)
-        return True
-
-
-class HeadingRule(Rule):
+class HeadingRule(object):
     type = 'heading'
     level = 0
 
@@ -30,14 +20,16 @@ class HeadingRule(Rule):
                     break
             return True
 
-    def action(self, element, handler, *args):
+    def action(self, element, handler):
         if self.condition(element):
-            Rule.action(self, element, handler, self.level)
+            handler.start(self.type, self.level)
+            handler.feed(element.strip(self.strip))
+            handler.end(self.type, self.level)
             self.level = 0
             return True
 
 
-class ListRule(Rule):
+class ListRule(object):
     type = 'list_item'
     list_type = ''
     flag = ['* ', '- ', '+ ']
@@ -45,7 +37,8 @@ class ListRule(Rule):
     content = []
 
     def list_break(self, element):
-        if element.startswith('\t') or element.startswith('    '):
+        # element.strip().strip("`")是为了防止把代码块标签识别为列表
+        if element.strip() and element.strip().strip("`"):
             if self.list_item_inside:
                 return True
 
@@ -54,22 +47,23 @@ class ListRule(Rule):
             self.strip = element[:2]
             self.list_type = 'ulist'
             self.list_item_inside = True
-            return True
+            return 'ul'
         match = re.match(r'\d{1,2}\. ', element)
         if match:
             self.strip = match.group(0)
             self.list_type = 'olist'
             self.list_item_inside = True
-            return True
+            return 'ol'
         if self.list_break(element):
             return True
 
-    def action(self, element, handler, *args):
-        if self.condition(element):
-            if element.startswith('\t') or element.startswith('    '):
-                self.content.append(element)
+    def action(self, element, handler):
+        condition_return = self.condition(element)
+        if condition_return:
+            if condition_return in ['ul', 'ol']:
+                self.content.append(element.lstrip(self.strip))
             else:
-                self.content.append(element.strip(self.strip))
+                self.content.append('\t' + element)
             return 'list'
         if self.content:
             handler.start(self.list_type)  # 有序列表或者无序列表开始标签
@@ -89,7 +83,7 @@ class ListRule(Rule):
             self.list_item_inside = False
 
 
-class CodeRule(Rule):
+class CodeRule(object):
     type = 'code'
     inside = False
     content = []
@@ -101,7 +95,7 @@ class CodeRule(Rule):
         if self.inside:
             return True
 
-    def action(self, element, handler, *args):
+    def action(self, element, handler):
         if self.condition(element):
             self.content.append(element)
             return 'code'
@@ -113,8 +107,12 @@ class CodeRule(Rule):
             self.content = []
 
 
-class ParagraphRule(Rule):
+class ParagraphRule(object):
     type = 'paragraph'
 
-    def condition(self, element):
-        return True
+    def action(self, element, handler):
+        if element.strip():
+            handler.start(self.type)
+            handler.feed(element.strip())
+            handler.end(self.type)
+            return True
