@@ -1,4 +1,4 @@
-## 模糊查询FuzzyFinder
+cd## 模糊查询FuzzyFinder
 
 模糊查询可以算是现代编辑器（在选择打开的文件时）的一个必备特性了，它所做的工作就是根据用户输入的部分内容，猜测用户想要的文件名，并提供一个推荐列表供用户选择。“模糊匹配”这是一个极为有用的特性，同时也非常易于实现。
 
@@ -26,16 +26,19 @@ systems字典的键表示运行此脚本的计算机的系统，值为一个元�
 ```python
 pattern = '.*?'.join(user_input)
 regex = re.compile(pattern)
-for parent, filenames in collections.iteritems():
-    for fn in filenames:
-        if ignore:
-            match = regex.search(fn.lower())
-        else:
-            match = regex.search(fn)
-        if match:
-            if len(match.group(0)) < (len(keyword) + 5):
-                the_path_of_file = os.path.join(parent, fn)
-                # len(match.group(0)反应匹配的紧凑程度，match.start()反应匹配到的起始位置
-                suggestions.append((len(match.group(0)), match.start(), the_path_of_file))
+for parent, _, filenames in os.walk(path):
+    if filenames:
+        parent = parent.decode(sys.stdout.encoding)
+        for fn in filenames:
+            fn = fn.decode(sys.stdout.encoding)
+            if ignore:
+                match = regex.search(fn.lower())
+            else:
+                match = regex.search(fn)
+            if match:
+                if len(match.group(0)) < (len(keyword) + 5):
+                    the_path_of_file = os.path.join(parent, fn)
+                    # len(match.group(0)反应匹配的紧凑程度，match.start()反应匹配到的起始位置
+                    suggestions.append((len(match.group(0)), match.start(), the_path_of_file))
 return [fn for _, _, fn in sorted(suggestions)]
 ```
