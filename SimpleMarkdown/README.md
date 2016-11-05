@@ -10,7 +10,7 @@
 
 ### 使用方法
 ```bash
-python simplemarkdown.py < test_input.txt > test_output.html
+$ python simplemarkdown.py < test_input.txt > test_output.html
 ```
 
 ### 难点
