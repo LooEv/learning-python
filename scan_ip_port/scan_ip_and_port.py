@@ -10,7 +10,7 @@ import Queue
 import multiprocessing
 import socket
 
-ip_prefix = ['10.70.73.', '180.97.33.']
+ip_prefix = ['180.97.33.', '14.17.32.']
 length_of_ip_suffix = 256
 ip_suffix = map(str, range(length_of_ip_suffix))
 available_ip = []
