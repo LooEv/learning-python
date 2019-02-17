@@ -18,11 +18,11 @@ class TestSon(Singleton1):
         print('in __init__, its name is {}'.format(name))
 
 
-t1 = TestSon('tom')
-print(id(t1))
-t2 = TestSon('tony')
-print(id(t2))
-print(hash(t1) == hash(t2))
+# t1 = TestSon('tom')
+# print(id(t1))
+# t2 = TestSon('tony')
+# print(id(t2))
+# print(hash(t1) == hash(t2))
 
 
 ##########################################################################################
@@ -43,7 +43,8 @@ class TestSon(metaclass=Singleton2):
         print('in __init__, its name is {}'.format(name))
 
 
-t1 = TestSon('tom')
-print(id(t1))
-t2 = TestSon('tony')
-print(id(t2))
+if __name__ == '__main__':
+    t1 = TestSon('tom')
+    print(id(t1))
+    t2 = TestSon('tony')
+    print(id(t2))
